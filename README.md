@@ -105,7 +105,7 @@
    # 新增行：读取自定义vermagic文件
    cp $(TOPDIR)/vermagic $(LINUX_DIR)/.vermagic
    ```
-   （配置参考：GitHub项目中的photo/1.png）
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/1.png)
 
 10. 同理修改内核Makefile，确保MD5验证兼容：
     ```bash
@@ -118,8 +118,9 @@
     # 新增行：使用自定义vermagic
     STAMP_BUILT:=$(STAMP_BUILT)_$(shell cat $(LINUX_DIR)/.vermagic)
     ```
-    （配置参考：GitHub项目中的photo/2.png）
+    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/2.png)
+
 11.配置编译模块
     ```bash
-      make menuconfig
+    make menuconfig
     ```
