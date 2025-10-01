@@ -121,5 +121,5 @@
     （配置参考：GitHub项目中的photo/2.png）
 11.配置编译模块
     ```bash
-make menuconfig
+      make menuconfig
     ```
