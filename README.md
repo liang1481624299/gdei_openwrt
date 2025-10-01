@@ -121,6 +121,10 @@
     ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/2.png)
 
 11.配置编译模块
-    ```bash
+
     make menuconfig
-    ```
+    
+12.进入menuconfig，双击ESC为返回上一页，键盘左右为选择操作，上下为滚轮滚轮操作。设置Target System 为 x86 , Subtarget 为 x86_64
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/3.png)
+   
