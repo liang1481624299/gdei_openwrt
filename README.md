@@ -11,7 +11,7 @@
 ## 准备阶段
 
 1. **硬件设备**：
-   - 主路由设备：需配备双网口的 x86-64 架构设备（如工控机、迷你主机），或其他支持刷写 OpenWRT 系统的主板（如 ARM 架构的开发板），确保能同时连接校园网进线和下级设备。
+   - 主路由设备：需配备双网口的 x86-64 架构设备（如工控机、迷你主机），或其他支持刷写 OpenWRT 系统的主板（如 ARM 架构的开发板），确保能同时连接校园网进线和下级设备。本方案用X86-64架构进行演示
    - 无线接入点：准备一台支持无线功能的路由器作为 AP（接入点），用于扩展 WiFi 覆盖，推荐支持 802.11ac 及以上协议的型号以保证无线速率。
 
 2. **编译环境**：
@@ -73,7 +73,7 @@
    # 克隆必要插件
    git clone https://github.com/asvow/luci-app-tailscale package/luci-app-tailscale  # Tailscale内网穿透
    git clone https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon  # Argon主题
-   git clone https://github.com/jerrykuka/luci-app-argon-config.git package/luci-app-argon-config  # 主题配置工具
+   git clone https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config  # 主题配置工具
    git clone https://github.com/lucikap/luci-app-ua2f.git package/luci-app-ua2f  # UA2F图形化配置
    
    # 克隆网易云音乐解锁插件
@@ -131,7 +131,28 @@
 
     make menuconfig
     
-12.进入menuconfig，双击ESC为返回上一页，键盘左右为选择操作，上下为滚轮滚轮操作。设置Target System 为 x86 , Subtarget 为 x86_64
+12.进入menu config，双击ESC为返回上一页，键盘左右为选择操作，上下为滚轮滚轮操作。设置Target System 为 x86 , Subtarget 为 x86_64
 
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/3.png)
    
+13.进入Target Images，我们只需要修改 Kernel partition size (in MiB) 和 Root filesystem partition size (in MiB)，按照自己的具体情况修改，Kernel partition是存放内核和引导文件的分区，Root filesystem partition是OpenWRT的Root分区，tips:如果是编译用来刷入硬路由的，这里不要改太大，不然会撑爆应路由的闪存，这里可以参考以下图片
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/4.png)
+
+14.操作完成后按ESC返回上一页，直到顶上标题栏显示 OpenWrt Configuration ，若不小心完全退出make menuconfig，可以重复第11步操作
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
+
+15.开始添加模块和软件包
+
+   (1) 添加ipid模块，找到并进入 Kernel modules -> Other modules -> 按Y选上 kmod-rkp-ipid
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/6.png)
+
+   (2) 按两下ESC退回到 OpenWrt Configuration
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
+
+   (3) 添加 UA 修改模块 找到并进入 Network -> Routing and Redirection -> 按Y选上 ua2f
+
+   ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/7.png)
