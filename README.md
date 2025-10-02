@@ -115,9 +115,7 @@
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/1.png)
 
 ## 10. 同理修改内核Makefile，确保MD5验证兼容：
-    ```bash
     nano ./package/kernel/linux/Makefile  # 编辑内核编译配置文件
-    ```
     按`Ctrl + /`输入`29`并回车，定位到第29行，修改为以下内容（注意保留行前空格）：
     ```bash
     # 注意，下面两个要粘贴的注意保留前方空格
