@@ -36,28 +36,28 @@
 
 ## 开始编译
 
-1. 克隆OpenWRT 23.05版本的分支（新版可能存在模块不兼容问题）。由于网络原因，部分用户可能需要使用代理工具加速：
+## 1. 克隆OpenWRT 23.05版本的分支（新版可能存在模块不兼容问题）。由于网络原因，部分用户可能需要使用代理工具加速：
    ```bash
    git clone https://github.com/openwrt/openwrt.git --branch=openwrt-23.05
    ```
 
-2. 为避免操作出错影响原始代码，先复制一份副本，在副本中进行编译：
+## 2. 为避免操作出错影响原始代码，先复制一份副本，在副本中进行编译：
    ```bash
    cp -r openwrt openwrt_2
    ```
 
-3. 进入OpenWRT副本文件夹：
+## 3. 进入OpenWRT副本文件夹：
    ```bash
    cd openwrt_2
    ```
 
-4. 先更新软件包源（feeds）：
+## 4. 先更新软件包源（feeds）：
    ```bash
    ./scripts/feeds update -a
    ./scripts/feeds install -a
    ```
 
-5. 克隆规避校园网侦测的核心插件源码：
+## 5. 克隆规避校园网侦测的核心插件源码：
    - UA2F：用于突破User-Agent特征检测
    - rkp-ipid：用于修改IPID序列，避免被追踪
    ```bash
@@ -65,7 +65,7 @@
    git clone https://github.com/CHN-beta/rkp-ipid.git package/rkp-ipid
    ```
 
-6. 克隆实用工具与插件源码（含网络加速、音乐解锁等功能）：
+## 6. 克隆实用工具与插件源码（含网络加速、音乐解锁等功能）：
    ```bash
    # 修复Tailscale编译冲突
    sed -i '/\/etc\/init\.d\/tailscale/d;/\/etc\/config\/tailscale/d;' feeds/packages/net/tailscale/Makefile
@@ -85,13 +85,13 @@
    curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
    ```
 
-7. 再次更新软件包源，确保新增插件被识别：
+## 7. 再次更新软件包源，确保新增插件被识别：
    ```bash
    ./scripts/feeds update -a
    ./scripts/feeds install -a
    ```
 
-8. 写入OpenWRT 23.05版本的MD5验证值（用于规避版本检测）：
+## 8. 写入OpenWRT 23.05版本的MD5验证值（用于规避版本检测）：
    ```bash
    nano vermagic  # 创建并编辑vermagic文件
    ```
@@ -101,7 +101,7 @@
    ```
    按`Ctrl + O`保存，再按`Ctrl + X`退出编辑器。
 
-9. 修改内核编译参数，让系统读取自定义的MD5值：
+## 9. 修改内核编译参数，让系统读取自定义的MD5值：
    ```bash
    nano ./include/kernel-defaults.mk  # 编辑内核默认配置文件
    ```
@@ -114,7 +114,7 @@
    ```
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/1.png)
 
-10. 同理修改内核Makefile，确保MD5验证兼容：
+## 10. 同理修改内核Makefile，确保MD5验证兼容：
     ```bash
     nano ./package/kernel/linux/Makefile  # 编辑内核编译配置文件
     ```
@@ -127,23 +127,23 @@
     ```
     ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/2.png)
 
-11.配置编译模块
+## 11.配置编译模块
 
     make menuconfig
     
-12.进入menu config，双击ESC为返回上一页，键盘左右为选择操作，上下为滚轮滚轮操作。设置Target System 为 x86 , Subtarget 为 x86_64
+## 12.进入menu config，双击ESC为返回上一页，键盘左右为选择操作，上下为滚轮滚轮操作。设置Target System 为 x86 , Subtarget 为 x86_64
 
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/3.png)
    
-13.进入Target Images，我们只需要修改 Kernel partition size (in MiB) 和 Root filesystem partition size (in MiB)，按照自己的具体情况修改，Kernel partition是存放内核和引导文件的分区，Root filesystem partition是OpenWRT的Root分区，tips:如果是编译用来刷入硬路由的，这里不要改太大，不然会撑爆应路由的闪存，这里可以参考以下图片
+## 13.进入Target Images，我们只需要修改 Kernel partition size (in MiB) 和 Root filesystem partition size (in MiB)，按照自己的具体情况修改，Kernel partition是存放内核和引导文件的分区，Root filesystem partition是OpenWRT的Root分区，tips:如果是编译用来刷入硬路由的，这里不要改太大，不然会撑爆应路由的闪存，这里可以参考以下图片
 
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/4.png)
 
-14.操作完成后按ESC返回上一页，直到顶上标题栏显示 OpenWrt Configuration ，若不小心完全退出make menuconfig，可以重复第11步操作
+## 14.操作完成后按ESC返回上一页，直到顶上标题栏显示 OpenWrt Configuration ，若不小心完全退出make menuconfig，可以重复第11步操作
 
    ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
 
-15.开始添加模块和软件包
+## 15.开始添加模块和软件包
 
    (1) 添加ipid模块，找到并进入 Kernel modules -> Other modules -> 按Y选上 kmod-rkp-ipid
 
