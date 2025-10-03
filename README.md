@@ -253,5 +253,28 @@ make kernel_menuconfig -j$(nproc) V=cs
 
 
 进入了 `Linux/x86 5.15.189 Kernel Configuration` 则无需理会，反之进入了 `General Setup` 请按两次ESC回到 `Linux/x86 5.15.189 Kernel Configuration`
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/21.png)
 
-1. 
+1. 进行参数设置
+
+#### (1) 开启 UA2F 的防火墙内核
+
+1. 找到并进入 `Networking support -> Networking options`
+2. 先按Y选中 `Network packet filtering framework (Netfilter)` 再按回车进入
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/22.png)
+
+3. 找到并进入 `Core Netfilter Configuration`
+4. 按Y选中 `Netfilter NFNETLINK interface` `Netfilter LOG over NFNETLINK interface` `Netfilter connection tracking support` `Connection tracking netlink interface` `NFQUEUE and NFLOG integration with Connection Tracking`
+5. 保存并离开
+
+### 17. 开始进行内核编译预下载（请确保你的网络环境有魔法）
+```bash
+make download -j$(nproc) V=cs
+```
+
+### 18. 大功告成，开始编译OpenWRT系统
+```bash
+make -j$(nproc) V=cs
+```
+
+### 19. 前往./bin/target/x86(你编译时选择的架构)/x64（你编译时选择的架构分支）/ 这里是存放编译好的所有镜像文件（.img）
