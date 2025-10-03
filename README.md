@@ -60,11 +60,11 @@
 - 网线（至少两根）：分别用于连接校园网接口与主路由、主路由与AP设备。
 
 ### 5. 面向操作不熟练同学的说明
-若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img（可以直接跳转到步骤四-19）
+若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img（可以直接跳转到步骤四-16）
 ```
 git clone https://github.com/liang1481624299/gdei_openwrt.git
 cd gdei_openwrt
-make -j$(nproc) V=cs  #开始编译openwrt
+make kernel_menuconfig -j$(nproc) V=cs
 ```
 
 
