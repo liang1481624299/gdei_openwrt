@@ -22,6 +22,7 @@
 ### 3. 工具软件
 - **PE系统**：用于引导设备并写入固件，推荐使用微PE或大白菜等纯净版PE工具。
 - **磁盘写入工具**：[DiskImage](https://sourceforge.net/projects/diskimage/files/latest/download)（下载链接），用于将编译好的OpenWRT镜像写入硬盘。
+- 如果无法下载或者其他原因，可以在项目的releases中下载
 
 ### 4. 其他准备
 - 校园网账号密码：用于验证接入校园网络。
@@ -29,7 +30,7 @@
 - 网线（至少两根）：分别用于连接校园网接口与主路由、主路由与AP设备。
 
 ### 5. 面向操作不熟练同学的说明
-若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译：
+若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img
 ```
 git clone https://github.com/liang1481624299/gdei_openwrt.git
 cd gdei_openwrt
