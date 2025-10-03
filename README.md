@@ -240,7 +240,7 @@ make menuconfig
 12. 双击ESC退出直到回到终端命令行
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/17.png)
 
-### 16. 开始进行内核编译配置，等待其再次出现选择页面
+### 16. 开始进行内核编译配置，等待其再次出现选择页面（请确保你的网络环境有魔法）
 ```bash
 make kernel_menuconfig -j$(nproc) V=cs
 ```
