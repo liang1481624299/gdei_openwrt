@@ -1,0 +1,21 @@
+Source-Makefile: package/turboacc/nft-fullcone/Makefile
+
+Package: kmod-nft-fullcone
+Submenu: Netfilter Extensions
+Version: <LINUX_VERSION>-1
+Depends: @IPV6 +kmod-nft-core +kmod-nf-conntrack +kmod-nf-conntrack6
+Conflicts: 
+Menu-Depends: 
+Provides: nft-fullcone
+Section: kernel
+Category: Kernel modules
+Title: nftables fullcone expression support
+Maintainer: 
+Source: 
+Type: ipkg
+Kernel-Config: CONFIG_NFT_FULLCONE=y CONFIG_NF_NAT=y CONFIG_NF_NAT_IPV6=y CONFIG_NF_CONNTRACK_EVENTS=y CONFIG_NF_CONNTRACK_CHAIN_EVENTS=y
+Description: nftables fullcone expression support
+
+@@
+
+

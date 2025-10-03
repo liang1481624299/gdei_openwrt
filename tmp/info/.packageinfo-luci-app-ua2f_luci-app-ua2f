@@ -1,0 +1,21 @@
+Source-Makefile: package/luci-app-ua2f/luci-app-ua2f/Makefile
+
+Package: luci-app-ua2f
+Submenu: 3. Applications
+Version: 1.8.0-1
+Depends: +libc +ua2f
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: luci
+Category: LuCI
+Repository: base
+Title: file transfer tool
+Maintainer: 
+Source: 
+Type: ipkg
+Description: 	Configure UA2F on the web.
+
+@@
+
+

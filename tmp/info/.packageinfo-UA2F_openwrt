@@ -1,0 +1,47 @@
+Source-Makefile: package/UA2F/openwrt/Makefile
+
+Package: ua2f
+Submenu: Routing and Redirection
+Version: 4.10.2-1
+Depends: +libc +libnetfilter-conntrack +libnetfilter-queue +libpthread +libuci +USE_GLIBC:libasan +(PACKAGE_nftables-json||PACKAGE_nftables-nojson):kmod-nft-queue +PACKAGE_firewall:iptables-mod-conntrack-extra +PACKAGE_firewall:iptables-mod-filter +PACKAGE_firewall:iptables-mod-nfqueue
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: net
+Category: Network
+Repository: base
+Title: Change User-Agent to Fwords on the fly.
+Maintainer: 
+Source: 
+License: GPL-3.0-only
+Type: ipkg
+Description:   Change User-agent to Fwords to prevent being detected.
+https://github.com/Zxilly/UA2F
+
+@@
+Config:
+  config UA2F_CUSTOM_USER_AGENT
+    bool "Enable custom User-Agent"
+    depends on PACKAGE_ua2f
+    default n
+    help
+      Enable this option to use a custom User-Agent string.
+
+  config UA2F_USER_AGENT_STRING
+    string "Custom User-Agent string"
+    depends on UA2F_CUSTOM_USER_AGENT
+    default "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.68"
+    help
+      Specify the custom User-Agent string to use when UA2F_CUSTOM_USER_AGENT is enabled.
+
+  config UA2F_ENABLE_LIBBACKTRACE
+    bool "Enable libbacktrace support"
+    depends on PACKAGE_ua2f
+    default y
+    help
+      Enable this option to use libbacktrace for better error reporting.
+      This will increase the binary size but provide more detailed error information.
+
+@@
+
+

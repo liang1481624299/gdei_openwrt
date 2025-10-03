@@ -1,0 +1,48 @@
+Source-Makefile: package/feeds/packages/pbr/Makefile
+
+Package: pbr
+Submenu: Routing and Redirection
+Version: 1.1.6-22
+Depends: +libc +ip-full +jshn +jsonfilter +resolveip +!BUSYBOX_DEFAULT_AWK:gawk +!BUSYBOX_DEFAULT_GREP:grep +!BUSYBOX_DEFAULT_SED:sed +kmod-nft-core +kmod-nft-nat +nftables-json
+Conflicts: 
+Menu-Depends: 
+Provides: pbr
+Build-Variant: nftables
+Default-Variant: nftables
+Section: net
+Category: Network
+Repository: packages
+Title: Policy Based Routing Service with nft/nft set support
+Maintainer: Stan Grishin <stangri@melmac.ca>
+Source: 
+License: AGPL-3.0-or-later
+Type: ipkg
+Description:     This service enables policy-based routing for WAN interfaces and various VPN tunnels.
+  This version supports OpenWrt (23.05 and newer) with firewall4/nft.
+https://github.com/stangri/pbr/
+Stan Grishin <stangri@melmac.ca>
+@@
+
+Package: pbr-iptables
+Submenu: Routing and Redirection
+Version: 1.1.6-22
+Depends: +libc +ip-full +jshn +jsonfilter +resolveip +!BUSYBOX_DEFAULT_AWK:gawk +!BUSYBOX_DEFAULT_GREP:grep +!BUSYBOX_DEFAULT_SED:sed +ipset +iptables +kmod-ipt-ipset +iptables-mod-ipopt
+Conflicts: 
+Menu-Depends: 
+Provides: pbr
+Build-Variant: iptables
+Section: net
+Category: Network
+Repository: packages
+Title: Policy Based Routing Service with iptables/ipset support
+Maintainer: Stan Grishin <stangri@melmac.ca>
+Source: 
+License: AGPL-3.0-or-later
+Type: ipkg
+Description:     This service enables policy-based routing for WAN interfaces and various VPN tunnels.
+  This version supports OpenWrt (22.03 and older) with firewall3/ipset/iptables.
+https://github.com/stangri/pbr/
+Stan Grishin <stangri@melmac.ca>
+@@
+
+

@@ -1,0 +1,20 @@
+Source-Makefile: package/rkp-ipid/Makefile
+
+Package: kmod-rkp-ipid
+Submenu: Other modules
+Version: <LINUX_VERSION>-2
+Depends: 
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: kernel
+Category: Kernel modules
+Title: rkp-ipid
+Maintainer: 
+Source: 
+Type: ipkg
+Description: rkp-ipid
+
+@@
+
+

@@ -1,0 +1,21 @@
+Source-Makefile: package/turboacc/shortcut-fe/simulated-driver/Makefile
+
+Package: kmod-shortcut-fe-drv
+Submenu: Network Support
+Version: <LINUX_VERSION>+2021-03-17-697977d8d0ccf0ab596e5692d08608a75dd7f33d-1
+Depends: @TARGET_qualcommax +kmod-shortcut-fe
+Conflicts: 
+Menu-Depends: 
+Provides: 
+Section: kernel
+Category: Kernel modules
+Title: Simulated sfe driver for ECM
+Maintainer: 
+Source: shortcut-fe-simulated-driver-2021-03-17-697977d8d0ccf0ab596e5692d08608a75dd7f33d.tar.xz
+Type: ipkg
+Kernel-Config: CONFIG_NET_CLS_ACT=y CONFIG_XFRM=y
+Description: Simulated sfe driver for ECM
+
+@@
+
+

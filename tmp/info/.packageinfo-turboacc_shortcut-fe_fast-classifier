@@ -1,0 +1,21 @@
+Source-Makefile: package/turboacc/shortcut-fe/fast-classifier/Makefile
+
+Package: kmod-fast-classifier
+Submenu: Network Support
+Version: <LINUX_VERSION>-6
+Depends: +kmod-ipt-conntrack +kmod-shortcut-fe
+Conflicts: kmod-shortcut-fe-drv kmod-shortcut-fe-cm
+Menu-Depends: 
+Provides: 
+Section: kernel
+Category: Kernel modules
+Title: Kernel driver for FAST Classifier
+Maintainer: 
+Source: 
+Type: ipkg
+Kernel-Config: CONFIG_NF_CONNTRACK_EVENTS=y CONFIG_NF_CONNTRACK_CHAIN_EVENTS=y CONFIG_NF_CONNTRACK_MARK=y CONFIG_XFRM=y
+Description: FAST Classifier talks to SFE to make decisions about offloading connections
+
+@@
+
+

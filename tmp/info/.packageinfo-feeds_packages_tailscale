@@ -1,0 +1,27 @@
+Source-Makefile: package/feeds/packages/tailscale/Makefile
+Build-Depends: golang/host
+
+Package: tailscale
+Submenu: VPN
+Version: 1.58.2-1
+Depends: +libc @(aarch64||arm||i386||i686||mips||mips64||mips64el||mipsel||powerpc64||riscv64||x86_64) +ca-bundle +kmod-tun
+Conflicts: 
+Menu-Depends: 
+Provides: tailscaled
+Section: net
+Category: Network
+Repository: packages
+Title: Zero config VPN
+Maintainer: Jan Pavlinec <jan.pavlinec1@gmail.com>
+Source: tailscale-1.58.2.tar.gz
+License: BSD-3-Clause
+LicenseFiles: LICENSE
+CPE-ID: cpe:/a:tailscale:tailscale
+Type: ipkg
+Description:   It creates a secure network between your servers, computers,
+  and cloud instances. Even when separated by firewalls or subnets.
+https://tailscale.com
+Jan Pavlinec <jan.pavlinec1@gmail.com>
+@@
+
+
