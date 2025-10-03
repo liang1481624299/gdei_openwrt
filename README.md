@@ -280,4 +280,6 @@ make download -j$(nproc) V=cs
 make -j$(nproc) V=cs
 ```
 
+编译时，弹出的功能全部选择y，以确保OpenWRT对设备的兼容性
+
 ### 19. 前往./bin/target/x86(你编译时选择的架构)/x64（你编译时选择的架构分支）/ 这里是存放编译好的所有镜像文件（.img）
