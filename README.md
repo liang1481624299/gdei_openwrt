@@ -236,8 +236,9 @@ make menuconfig
 8. 回到 `LuCI`
 9. 找到并进入 `Applications`
 10. 按Y选中 `luci-app-argon-config` `luci-app-dockerman` `luci-app-ttyd` `luci-app-tailscale` `luci-app-ua2f` `luci-app-unblockneteasemusic` `luci-app-upnp` `luci-app-wol`
-11. 按键盘方向→键移动光标到 `save` 保存(如同上面保存步骤)
-12. 双击ESC退出直到回到终端命令行
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/19.png)
+12. 按键盘方向→键移动光标到 `save` 保存(如同上面保存步骤)
+13. 双击ESC退出直到回到终端命令行
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/17.png)
 
 ### 16. 开始进行内核编译配置，等待其再次出现选择页面（请确保你的网络环境有魔法）
@@ -246,3 +247,11 @@ make kernel_menuconfig -j$(nproc) V=cs
 ```
 
 💡Tips：编译时可能会因为不同硬件性能问题，而出现的等待时间不一样，性更强的编译速度快一些，性能弱的则需要耐心等待
+
+这里会有两种情况，有些人直接就进入了 `Linux/x86 5.15.189 Kernel Configuration` 二有些人会进入 `General Setup` （如下图）
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/20.png)
+
+
+进入了 `Linux/x86 5.15.189 Kernel Configuration` 则无需理会，反之进入了 `General Setup` 请按两次ESC回到 `Linux/x86 5.15.189 Kernel Configuration`
+
+1. 
