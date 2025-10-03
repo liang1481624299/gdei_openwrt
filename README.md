@@ -195,9 +195,12 @@ make menuconfig
 2. 按Y选中 `kmod-rkp-ipid`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/6.png)
 
-#### （2）返回主配置界面
-按两下ESC退回到 `OpenWrt Configuration`
+#### （2）返回主配置界面，并安装vpn（用于远程访问校内业务）
+1. 按两下ESC退回到 `OpenWrt Configuration`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
+2. 找到并进入 `Network -> VPN`
+3. 按Y选中 `openvpn-easy-rsa` `openvpn-openssl` `tailscale`
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/19.png)
 
 #### （3）添加UA修改模块
 1. 找到并进入 `Network -> Routing and Redirection`
@@ -206,7 +209,7 @@ make menuconfig
 
 ####  (4) 添加需要的防火墙模块
 1. 找到并进入 `Network ->Firewall`
-2. 按Y选中 `iptables-mod-conntrack-extra iptables-mod-filter iptables-mod-ipopt iptables-nft iptables-nft iptables-mod-u32`
+2. 按Y选中 `iptables-mod-conntrack-extra` `iptables-mod-filter` `iptables-mod-ipopt` `iptables-nft` `iptables-mod-u32`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/8.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/9.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/10.png)
@@ -215,13 +218,27 @@ make menuconfig
 5. 找到并进入 `Network`
 6. 按Y选中 `ipset`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/12.png)
+7. 先保存一下以防万一
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/13.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/14.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/15.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/16.png)
 
 ####  (5) 添加 LuCI 网络管理界面
 1. 找到并进入 `LuCI -> Collections ->`
 2. 按Y选中 `luci`
-3. 回到LuCI
+3. 回到 `LuCI`
 4. 找到并进入 `Modules`
 5. 按Y选中 `luci-compat`
 6. 找到并进入 `Translations`
 7. 可以根据自己想要的语言进行配置网页前端翻译，这边我是全部选上
-![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/113.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/18.png)
+8. 回到 `LuCI`
+9. 找到并进入 `Applications`
+10. 按Y选中 `luci-app-argon-config` `luci-app-dockerman` `luci-app-ttyd` `luci-app-tailscale` `luci-app-ua2f` `luci-app-unblockneteasemusic` `luci-app-upnp` `luci-app-wol`
+11. 按键盘方向→键移动光标到 `save` 保存(如同上面保存步骤)
+
+### 16. 开始进行内核编译配置，等待其再次出现选择页面
+```bash
+make kernel_menuconfig -j$(nproc) V=cs
+```
