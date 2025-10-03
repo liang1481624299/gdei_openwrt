@@ -10,35 +10,7 @@
 
 基于计算机编译原理的基础认知，以及对OpenWRT固件模块化架构的理解，我通过固件定制编译、协议栈参数优化、应用层代理策略配置等技术路径，系统性解构校园网管控逻辑，最终形成这套兼具实用性与可扩展性的宿舍网络优化方案。
 
-
-## 二、准备阶段
-### 1. 硬件设备
-- **主路由设备**：需配备双网口的x86-64架构设备（如工控机、迷你主机），或其他支持刷写OpenWRT系统的主板（如ARM架构开发板），确保可同时连接校园网进线与下级设备。本方案以X86-64架构为例演示。
-- **无线接入点**：准备1台支持无线功能的路由器作为AP（接入点），用于扩展WiFi覆盖，推荐支持802.11ac及以上协议的型号，以保证无线速率。
-
-### 2. 编译环境
-- **操作系统**：必须使用Ubuntu（推荐20.04/22.04 LTS版本）或其他Linux发行版，本方案以Ubuntu为例操作演示。
-- **配置要求**：建议至少4GB内存、20GB空闲硬盘空间，处理器支持多线程以加快编译速度。
-
-### 3. 工具软件
-- **PE系统**：用于引导设备并写入固件，推荐使用微PE或大白菜等纯净版PE工具。
-- **磁盘写入工具**：[DiskImage](https://sourceforge.net/projects/diskimage/files/latest/download)（下载链接），用于将编译好的OpenWRT镜像写入硬盘。
-- 如果无法下载或者其他原因，可以在项目的releases中下载
-
-### 4. 其他准备
-- 校园网账号密码：用于验证接入校园网络。
-- U盘（8GB以上）：制作PE启动盘及存放固件文件。
-- 网线（至少两根）：分别用于连接校园网接口与主路由、主路由与AP设备。
-
-### 5. 面向操作不熟练同学的说明
-若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img
-```
-git clone https://github.com/liang1481624299/gdei_openwrt.git
-cd gdei_openwrt
-```
-
-
-## 三、QA与免责声明
+## 二、QA与免责声明
 <details>
 <summary>📌 点击展开：常见问题解答（QA）</summary>
 
@@ -66,6 +38,34 @@ cd gdei_openwrt
 4. 禁止任何个人或组织在未经项目作者允许的情况下，将本项目的代码、文档进行篡改、二次封装后用于商业传播或盈利，违者将追究其相关法律责任。  
 5. 项目作者有权根据技术发展或校园网政策变化，对方案内容进行更新或调整，不保证方案长期适用于所有场景，建议使用者关注项目最新动态。
 </details>
+
+
+## 三、准备阶段
+### 1. 硬件设备
+- **主路由设备**：需配备双网口的x86-64架构设备（如工控机、迷你主机），或其他支持刷写OpenWRT系统的主板（如ARM架构开发板），确保可同时连接校园网进线与下级设备。本方案以X86-64架构为例演示。
+- **无线接入点**：准备1台支持无线功能的路由器作为AP（接入点），用于扩展WiFi覆盖，推荐支持802.11ac及以上协议的型号，以保证无线速率。
+
+### 2. 编译环境
+- **操作系统**：必须使用Ubuntu（推荐20.04/22.04 LTS版本）或其他Linux发行版，本方案以Ubuntu为例操作演示。
+- **配置要求**：建议至少4GB内存、20GB空闲硬盘空间，处理器支持多线程以加快编译速度。
+
+### 3. 工具软件
+- **PE系统**：用于引导设备并写入固件，推荐使用微PE或大白菜等纯净版PE工具。
+- **磁盘写入工具**：[DiskImage](https://sourceforge.net/projects/diskimage/files/latest/download)（下载链接），用于将编译好的OpenWRT镜像写入硬盘。
+- 如果无法下载或者其他原因，可以在项目的releases中下载
+
+### 4. 其他准备
+- 校园网账号密码：用于验证接入校园网络。
+- U盘（8GB以上）：制作PE启动盘及存放固件文件。
+- 网线（至少两根）：分别用于连接校园网接口与主路由、主路由与AP设备。
+
+### 5. 面向操作不熟练同学的说明
+若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img
+```
+git clone https://github.com/liang1481624299/gdei_openwrt.git
+cd gdei_openwrt
+```
+
 
 
 ## 四、开始编译
@@ -138,14 +138,14 @@ nano vermagic  # 创建并编辑vermagic文件
 ```
 47964456485559d992fe6f536131fc64
 ```
-按`Ctrl + O`保存，再按`Ctrl + X`退出编辑器。
+按 `Ctrl + O` 保存，再按`Ctrl + X`退出编辑器。
 
 ### 9. 修改内核编译参数
 修改内核编译参数，让系统读取自定义的MD5值：
 ```bash
 nano ./include/kernel-defaults.mk  # 编辑内核默认配置文件
 ```
-按`Ctrl + /`输入`121`并回车，快速定位到第121行，将原有代码注释并替换为读取自定义MD5的配置：
+按 `Ctrl + /` 输入 `121` 并回车，快速定位到第121行，将原有代码注释并替换为读取自定义MD5的配置：
 ```bash
 # 注释原有行
 #grep '=[ym]' $(LINUX_DIR)/.config.set | LC_ALL=C sort | $(MKHASH) md5 > $(LINUX_DIR)/.vermagic
@@ -159,7 +159,7 @@ cp $(TOPDIR)/vermagic $(LINUX_DIR)/.vermagic
 ```bash
 nano ./package/kernel/linux/Makefile  # 编辑内核编译配置文件
 ```
-按`Ctrl + /`输入`29`并回车，定位到第29行，修改为以下内容（注意保留行前空格）：
+按 `Ctrl + /` 输入 `29` 并回车，定位到第29行，修改为以下内容（注意保留行前空格）：
 ```bash
 # 注意，下面两个要粘贴的注意保留前方空格
 #STAMP_BUILT:=$(STAMP_BUILT)_$(shell $(SCRIPT_DIR)/kconfig.pl $(LINUX_DIR)/.config | $(MKHASH) md5)
@@ -174,11 +174,11 @@ make menuconfig
 ```
 
 ### 12. 配置目标系统
-进入`menuconfig`后，操作规则如下：双击ESC返回上一页，键盘左右键选择操作，上下键实现滚动。将`Target System`设置为`x86`，`Subtarget`设置为`x86_64`。
+进入 `menuconfig` 后，操作规则如下：双击ESC返回上一页，键盘左右键选择操作，上下键实现滚动。将 `Target System` 设置为 `x86` ， `Subtarget` 设置为 `x86_64` 。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/3.png)
 
 ### 13. 配置目标镜像分区
-进入`Target Images`，仅需修改`Kernel partition size (in MiB)`和`Root filesystem partition size (in MiB)`，具体数值根据自身情况调整：
+进入 `Target Images` ，仅需修改 `Kernel partition size (in MiB)` 和 `Root filesystem partition size (in MiB)` ，具体数值根据自身情况调整：
 - `Kernel partition`：存放内核和引导文件的分区
 - `Root filesystem partition`：OpenWRT的Root分区
 
@@ -186,21 +186,42 @@ make menuconfig
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/4.png)
 
 ### 14. 返回主配置界面
-操作完成后按ESC返回上一页，直至顶部标题栏显示`OpenWrt Configuration`。若不小心完全退出`make menuconfig`，可重复第11步重新启动配置。
+操作完成后按ESC返回上一页，直至顶部标题栏显示 `OpenWrt Configuration` 。若不小心完全退出 `make menuconfig` ，可重复第11步重新启动配置。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
 
 ### 15. 添加模块和软件包
 #### （1）添加ipid模块
-1. 找到并进入`Kernel modules -> Other modules`
-2. 按Y选中`kmod-rkp-ipid`
+1. 找到并进入 `Kernel modules -> Other modules`
+2. 按Y选中 `kmod-rkp-ipid`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/6.png)
 
 #### （2）返回主配置界面
-按两下ESC退回到`OpenWrt Configuration`
+按两下ESC退回到 `OpenWrt Configuration`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
 
 #### （3）添加UA修改模块
-1. 找到并进入`Network -> Routing and Redirection`
-2. 按Y选中`ua2f`
+1. 找到并进入 `Network -> Routing and Redirection`
+2. 按Y选中 `ua2f`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/7.png)
 
+####  (4) 添加需要的防火墙模块
+1. 找到并进入 `Network ->Firewall`
+2. 按Y选中 `iptables-mod-conntrack-extra iptables-mod-filter iptables-mod-ipopt iptables-nft iptables-nft iptables-mod-u32`
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/8.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/9.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/10.png)
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/11.png)
+4. 回到OpenWRT Configuration
+5. 找到并进入 `Network`
+6. 按Y选中 `ipset`
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/12.png)
+
+####  (5) 添加 LuCI 网络管理界面
+1. 找到并进入 `LuCI -> Collections ->`
+2. 按Y选中 `luci`
+3. 回到LuCI
+4. 找到并进入 `Modules`
+5. 按Y选中 `luci-compat`
+6. 找到并进入 `Translations`
+7. 可以根据自己想要的语言进行配置网页前端翻译，这边我是全部选上
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/113.png)
