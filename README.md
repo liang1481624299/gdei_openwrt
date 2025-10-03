@@ -236,7 +236,7 @@ make menuconfig
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/18.png)
 8. 回到 `LuCI`
 9. 找到并进入 `Applications`
-10. 按Y选中 `luci-app-argon-config` `luci-app-dockerman` `luci-app-ttyd` `luci-app-tailscale` `luci-app-ua2f` `luci-app-unblockneteasemusic` `luci-app-upnp` `luci-app-wol`
+10. 按Y选中 `luci-app-argon-config` `luci-app-ttyd` `luci-app-tailscale` `luci-app-ua2f` `luci-app-unblockneteasemusic` `luci-app-upnp` `luci-app-wol`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/19.png)
 12. 按键盘方向→键移动光标到 `save` 保存(如同上面保存步骤)
 13. 双击ESC退出直到回到终端命令行
