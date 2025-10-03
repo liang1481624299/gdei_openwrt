@@ -202,5 +202,3 @@ make menuconfig
 2. 按Y选中`ua2f`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/7.png)
 
-
-要不要我帮你把“开始编译”章节中涉及操作步骤的文字（如菜单选择、参数调整）用统一的高亮格式标注，让后续查看时能更快定位关键操作？
