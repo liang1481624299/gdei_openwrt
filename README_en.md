@@ -371,7 +371,7 @@ cn.pool.ntp.org        # Global NTP Pool
 ```
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/29.png)
 
-### 6. Modify the opkg Software Package Configuration
+### 6. Modify the opkg Software Package Configuration (If update failed)
 1. Find `System -> Software` in the left menu and select `Configure opkg`.
 2. Change "23.05-SNAPSHOT" in `/etc/opkg/distfeeds.conf` to "23.05". The modified content is as follows:
 ```bash
