@@ -289,3 +289,109 @@ make dirclean  # 更彻底的清理，会删除下载的包和配置
 ```
 
 ### 19. 前往./bin/target/x86(你编译时选择的架构)/x64（你编译时选择的架构分支）/ 这里是存放编译好的所有镜像文件（.img）
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/23.png)
+
+## 五、开始安装（基于x86_64平台演示）
+
+### 1. 进入PE，确保你要安装 OpenWRT 的硬盘是完全空的，没有任何分区
+
+### 2. 打开 DiskImage 软件，选择安装硬盘和安装镜像
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/24.png)
+
+### 3. 直到显示完成即可重启
+
+## 六、设置 OpenWRT 软路由
+
+## 1. 如下图连接好设备
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/25.png)
+
+💡Tips：若不知道 OpenWRT 哪个是 WAN 口，可以先直接把电脑插到 OpenWRT的网口上，若有分配出 192.168.1.x 的ip，则是 LAN 口
+
+## 2. 电脑打开浏览器，输入 192.168.1.1 进入 OpenWRT 管理面板（默认无密码）
+ 
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/26.png)
+
+## 3. 首先先设置密码
+
+## 4.填写 反侦测 的自启动脚本
+
+在左侧选项中找到 `系统 -> 启动项` 选择 `本地启动脚本`如图填写，记得点击右下角保存
+
+```bash
+#开机自启UA2F
+service ua2f start
+service ua2f enable
+
+#防火墙：
+iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53
+iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53
+
+# 防 IPID 检测
+iptables -t mangle -N IPID_MOD
+iptables -t mangle -A FORWARD -j IPID_MOD
+iptables -t mangle -A OUTPUT -j IPID_MOD
+iptables -t mangle -A IPID_MOD -d 0.0.0.0/8 -j RETURN
+iptables -t mangle -A IPID_MOD -d 127.0.0.0/8 -j RETURN
+# 由于本校局域网是 A 类网，所以我将这一条注释掉了，具体要不要注释结合你所在的校园网内网类型
+# iptables -t mangle -A IPID_MOD -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A IPID_MOD -d 172.16.0.0/12 -j RETURN
+iptables -t mangle -A IPID_MOD -d 192.168.0.0/16 -j RETURN
+iptables -t mangle -A IPID_MOD -d 255.0.0.0/8 -j RETURN
+iptables -t mangle -A IPID_MOD -j MARK --set-xmark 0x10/0x10
+
+# 防时钟偏移检测
+iptables -t nat -N ntp_force_local
+iptables -t nat -I PREROUTING -p udp --dport 123 -j ntp_force_local
+iptables -t nat -A ntp_force_local -d 0.0.0.0/8 -j RETURN
+iptables -t nat -A ntp_force_local -d 127.0.0.0/8 -j RETURN
+iptables -t nat -A ntp_force_local -d 192.168.0.0/16 -j RETURN
+iptables -t nat -A ntp_force_local -s 192.168.0.0/16 -j DNAT --to-destination 192.168.1.1
+
+# 通过 iptables 修改 TTL 值
+iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64
+
+# iptables 拒绝 AC 进行 Flash 检测
+iptables -I FORWARD -p tcp --sport 80 --tcp-flags ACK ACK -m string --algobm --string " src=\"http://1.1.1." -j DROP
+```
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/27.png)
+
+## 5. 修改 OpenWRT 时时间设置
+
+#### (1) 在左侧 `系统 -> 系统` 修改时区为 Asia/Shanghai ，记得点击右下角的保存并应用
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/28.png)
+
+#### (2) 设置NTP服务器，给下游设备授时，顶上找到时间同步，然后如下图填写
+```bash
+ntp.aliyun.com          #来自阿里云
+time1.cloud.tencent.com  #来自腾讯云
+time.ustc.edu.cn        #来自中科大
+cn.pool.ntp.org        #全球志愿池
+```
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/29.png)
+
+## 6. 修改opkg软件包配置
+在左侧 `系统 -> 软件包` 中找到 配置opkg，将/etc/opkg/distfeeds.conf中的23.05-SNAPSHOT改为23.05 (如下图)
+```bash
+src/gz openwrt_core https://downloads.openwrt.org/releases/23.05/targets/x86/64/packages
+src/gz openwrt_base https://downloads.openwrt.org/releases/23.05/packages/x86_64/base
+src/gz openwrt_luci https://downloads.openwrt.org/releases/23.05/packages/x86_64/luci
+src/gz openwrt_packages https://downloads.openwrt.org/releases/23.05/packages/x86_64/packages
+src/gz openwrt_routing https://downloads.openwrt.org/releases/23.05/packages/x86_64/routing
+src/gz openwrt_telephony https://downloads.openwrt.org/releases/23.05/packages/x86_64/telephony
+```
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/30.png)
+
+## 七、最后的工作（或许你上面已经做过了，可忽略，如下图）
+1. 将 OpenWRT 的 WAN 口用网线连接到校园网
+2. 将 路由器 的 WAN 口连接到 OpenWRT 的 LAN 口
+3. 设置 路由器 为桥接或有线中继模式
+4. 设置好 路由器 的 Wi-Fi
+5. 大功告成，快叫上你的伙伴愉快的上网吧
+
+![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/25.png)
