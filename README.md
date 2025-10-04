@@ -371,7 +371,7 @@ cn.pool.ntp.org        # 全球NTP志愿池
 ```
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/29.png)
 
-### 6. 修改opkg软件包配置
+### 6. 修改opkg软件包配置（若更新软件时报错）
 1. 在左侧菜单中找到 `系统 -> 软件包`，选择 `配置opkg`。
 2. 将 `/etc/opkg/distfeeds.conf` 中的“23.05-SNAPSHOT”修改为“23.05”，修改后内容如下：
 ```bash
