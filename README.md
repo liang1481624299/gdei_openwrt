@@ -121,6 +121,9 @@ cd ..
 
 # 安装Turbo ACC网络加速模块
 curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
+
+#安装vlmcds，局域网激活Windows Office
+git clone https://github.com/ysc3839/openwrt-vlmcsd.git package/vlmcsd
 ```
 
 ### 7. 再次更新软件包源
