@@ -1,32 +1,33 @@
 ### **Language Switch: [English](README_en.md)**
-# 适用于广东第二师范学院校园网宿舍解决方案
-本方案针对广东第二师范学院宿舍校园网的常见问题，解决网络卡顿、带宽不足、连接设备数量受限、部分网站无法访问等问题。核心通过自定义编译OpenWRT固件、优化网络设置避开校园网监测，提升网络使用的流畅度与灵活性。需说明的是，方案思路与方法同样适用于其他高校校园网，仅供参考与技术交流。
+# 广东第二师范学院宿舍校园网解决方案
+本方案针对广东第二师范学院宿舍校园网的常见问题，解决网络卡顿、带宽不足、连接设备数量受限、部分网站无法访问等问题。核心思路是通过自定义编译OpenWRT固件、优化网络设置以避开校园网监测，提升网络使用的流畅度与灵活性。需说明的是，方案思路与方法同样适用于其他高校校园网，仅供参考与技术交流。
 
 
 ## 一、方案背景与初衷
-高中时期，我长期受顺德区教育网限制，深刻体会到网络受限对学习与生活的影响。进入广东第二师范学院后，发现宿舍校园网存在类似问题：高峰时段视频卡顿、多设备联网频繁断连、部分学习所需外部网站无法打开，直接影响网课学习、资料查询与日常使用。
+高中时期，我长期受顺德区教育网限制，深刻体会到网络受限对学习与生活的影响。进入广东第二师范学院后，发现宿舍校园网存在类似问题：高峰时段视频卡顿、多设备联网频繁断连、部分学习所需的外部网站无法打开，直接影响网课学习、资料查询与日常使用。
 
-目前国内高校校园网管控已形成成熟技术链条：前端通过User-Agent特征识别、时间戳动态校验、IPID序列追踪等多维手段实现终端侦测；后端依托IP地址污染、DNS解析劫持、HTTP响应重定向至校内404页面等方式实施访问阻断。这种“侦测-响应”机制闭环，是校园网络自由使用的主要技术壁垒。
+目前，国内高校校园网管控已形成成熟技术链条：前端通过User-Agent特征识别、时间戳动态校验、IPID序列追踪等多维手段实现终端侦测；后端依托IP地址污染、DNS解析劫持、HTTP响应重定向至校内404页面等方式实施访问阻断。这种“侦测-响应”机制闭环，是校园网络自由使用的主要技术壁垒。
 
 基于计算机编译原理的基础认知，以及对OpenWRT固件模块化架构的理解，我通过固件定制编译、协议栈参数优化、应用层代理策略配置等技术路径，系统性解构校园网管控逻辑，最终形成这套兼具实用性与可扩展性的宿舍网络优化方案。
+
 
 ## 二、QA与免责声明
 <details>
 <summary>📌 点击展开：常见问题解答（QA）</summary>
 
-### 1. 为什么开源此技术，校园网不会采取网络漏洞修复措施？
-- 校园网运维工程师对技术动态的关注度远高于普通学生，不存在“不知道”的情况，不修复核心原因是**技术上无法有效修复**。  
+### 1. 为什么开源此技术？校园网不会采取网络漏洞修复措施吗？
+- 校园网运维工程师对技术动态的关注度远高于普通学生，不存在“不知道”的情况。不修复的核心原因是**技术上无法有效修复**。  
 - 校园网的各类检测方法，均基于中华人民共和国国家知识产权局发布的专利申请及相关国标文件制定；而本方案的反侦测技术完全符合国标规定，原理是将宿舍所有网络设备聚合为“一个IP、一个MAC、一个UA”上网，与单台设备正常上网的特征完全一致，检测设备无法区分聚合设备与单台设备，更不可能封禁正常上网的终端。  
 - 从运维成本角度，校园网维护存在设备成本、维护成本双重限制：新增检测手段会干扰原有检测准确性，且需投入更多硬件资源；若一味增加检测规则，会显著拖慢校园服务器性能，进而影响全校师生的上网体验与正常教学进度。  
 - 从流程与实操角度，运维人员调整检测策略需层层请示上级、多方协调测试，且难以精准分辨“正常设备”与“聚合设备”；相比之下，本方案仅涉及技术配置，无额外流程阻力。
 
-### 2. 部署这个项目会不会有什么安全风险或者法律风险？
-**无安全风险与法律风险**，可放心部署。 
+### 2. 部署这个项目会有安全风险或法律风险吗？
+**无安全风险与法律风险**，可放心部署。  
 
 本项目的反侦测逻辑基于个人长期技术探索总结，全程不涉及对校园网络设备的修改或损坏，所有配置均遵循国标文件要求，未突破校园网基础使用框架，无需担心法律或安全层面的问题。
 
 ### 3. 遇到其他未提及的问题该如何解决？
-若遇到方案中未覆盖的疑难杂症，欢迎在项目GitHub仓库的**issues**板块留言，我会在看到后及时回复并协助解决。
+若遇到方案中未覆盖的疑难问题，欢迎在项目GitHub仓库的**issues**板块留言，我会在看到后及时回复并协助解决。
 </details>
 
 <details>
@@ -43,7 +44,7 @@
 ## 三、准备阶段
 ### 1. 硬件设备
 - **主路由设备**：需配备双网口的x86-64架构设备（如工控机、迷你主机），或其他支持刷写OpenWRT系统的主板（如ARM架构开发板），确保可同时连接校园网进线与下级设备。本方案以X86-64架构为例演示。
-- **无线接入点**：准备1台支持无线功能的路由器作为AP（接入点），用于扩展WiFi覆盖，推荐支持802.11ac及以上协议的型号，以保证无线速率。
+- **无线接入点（AP）**：准备1台支持无线功能的路由器作为AP，用于扩展WiFi覆盖，推荐支持802.11ac及以上协议的型号，以保证无线速率。
 
 ### 2. 编译环境
 - **操作系统**：必须使用Ubuntu（推荐20.04/22.04 LTS版本）或其他Linux发行版，本方案以Ubuntu为例操作演示。
@@ -52,21 +53,20 @@
 ### 3. 工具软件
 - **PE系统**：用于引导设备并写入固件，推荐使用微PE或大白菜等纯净版PE工具。
 - **磁盘写入工具**：[DiskImage](https://sourceforge.net/projects/diskimage/files/latest/download)（下载链接），用于将编译好的OpenWRT镜像写入硬盘。
-- 如果无法下载或者其他原因，可以在项目的releases中下载
+- 若无法下载上述工具，可在项目的releases中下载备用工具。
 
 ### 4. 其他准备
 - 校园网账号密码：用于验证接入校园网络。
-- U盘（8GB以上）：制作PE启动盘及存放固件文件。
+- U盘（8GB以上）：用于制作PE启动盘及存放固件文件。
 - 网线（至少两根）：分别用于连接校园网接口与主路由、主路由与AP设备。
 
 ### 5. 面向操作不熟练同学的说明
-若无法独立完成以下操作，可直接使用以下命令下载已设置好的配置文件，直接进行编译，或者直接去releases下载已经编译好的img（可以直接跳转到步骤四-16）
+若无法独立完成后续操作，可直接使用以下命令下载已配置好的文件进行编译，或直接前往releases下载已编译好的img文件（可直接跳转到步骤四-16）：
 ```
 git clone https://github.com/liang1481624299/gdei_openwrt.git
 cd gdei_openwrt
 make kernel_menuconfig -j$(nproc) V=cs
 ```
-
 
 
 ## 四、开始编译
@@ -139,7 +139,7 @@ nano vermagic  # 创建并编辑vermagic文件
 ```
 47964456485559d992fe6f536131fc64
 ```
-按 `Ctrl + O` 保存，再按`Ctrl + X`退出编辑器。
+按 `Ctrl + O` 保存，再按 `Ctrl + X` 退出编辑器。
 
 ### 9. 修改内核编译参数
 修改内核编译参数，让系统读取自定义的MD5值：
@@ -162,7 +162,7 @@ nano ./package/kernel/linux/Makefile  # 编辑内核编译配置文件
 ```
 按 `Ctrl + /` 输入 `29` 并回车，定位到第29行，修改为以下内容（注意保留行前空格）：
 ```bash
-# 注意，下面两个要粘贴的注意保留前方空格
+# 注意：以下两行需保留前方空格
 #STAMP_BUILT:=$(STAMP_BUILT)_$(shell $(SCRIPT_DIR)/kconfig.pl $(LINUX_DIR)/.config | $(MKHASH) md5)
 # 新增行：使用自定义vermagic
 STAMP_BUILT:=$(STAMP_BUILT)_$(shell cat $(LINUX_DIR)/.vermagic)
@@ -175,11 +175,11 @@ make menuconfig
 ```
 
 ### 12. 配置目标系统
-进入 `menuconfig` 后，操作规则如下：双击ESC返回上一页，键盘左右键选择操作，上下键实现滚动。将 `Target System` 设置为 `x86` ， `Subtarget` 设置为 `x86_64` 。
+进入 `menuconfig` 后，操作规则如下：双击ESC返回上一页，用键盘左右键选择操作，上下键实现滚动。将 `Target System` 设置为 `x86`，`Subtarget` 设置为 `x86_64`。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/3.png)
 
 ### 13. 配置目标镜像分区
-进入 `Target Images` ，仅需修改 `Kernel partition size (in MiB)` 和 `Root filesystem partition size (in MiB)` ，具体数值根据自身情况调整：
+进入 `Target Images`，仅需修改 `Kernel partition size (in MiB)` 和 `Root filesystem partition size (in MiB)`，具体数值根据自身情况调整：
 - `Kernel partition`：存放内核和引导文件的分区
 - `Root filesystem partition`：OpenWRT的Root分区
 
@@ -187,7 +187,7 @@ make menuconfig
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/4.png)
 
 ### 14. 返回主配置界面
-操作完成后按ESC返回上一页，直至顶部标题栏显示 `OpenWrt Configuration` 。若不小心完全退出 `make menuconfig` ，可重复第11步重新启动配置。
+操作完成后按ESC返回上一页，直至顶部标题栏显示 `OpenWrt Configuration`。若不小心完全退出 `make menuconfig`，可重复第11步重新启动配置。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
 
 ### 15. 添加模块和软件包
@@ -196,7 +196,7 @@ make menuconfig
 2. 按Y选中 `kmod-rkp-ipid`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/6.png)
 
-#### （2）返回主配置界面，并安装vpn（用于远程访问校内业务）
+#### （2）返回主配置界面并安装VPN（用于远程访问校内业务）
 1. 按两下ESC退回到 `OpenWrt Configuration`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/5.png)
 2. 找到并进入 `Network -> VPN`
@@ -208,134 +208,131 @@ make menuconfig
 2. 按Y选中 `ua2f`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/7.png)
 
-####  (4) 添加需要的防火墙模块
-1. 找到并进入 `Network ->Firewall`
+#### （4）添加需要的防火墙模块
+1. 找到并进入 `Network -> Firewall`
 2. 按Y选中 `iptables-mod-conntrack-extra` `iptables-mod-filter` `iptables-mod-ipopt` `iptables-nft` `iptables-mod-u32`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/8.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/9.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/10.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/11.png)
-4. 回到OpenWRT Configuration
-5. 找到并进入 `Network`
-6. 按Y选中 `ipset`
+3. 回到 `OpenWRT Configuration`
+4. 找到并进入 `Network`
+5. 按Y选中 `ipset`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/12.png)
-7. 先保存一下以防万一
+6. 先保存配置以防万一
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/13.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/14.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/15.png)
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/16.png)
 
-####  (5) 添加 LuCI 网络管理界面
-1. 找到并进入 `LuCI -> Collections ->`
+#### （5）添加 LuCI 网络管理界面
+1. 找到并进入 `LuCI -> Collections`
 2. 按Y选中 `luci`
 3. 回到 `LuCI`
 4. 找到并进入 `Modules`
 5. 按Y选中 `luci-compat`
 6. 找到并进入 `Translations`
-7. 可以根据自己想要的语言进行配置网页前端翻译，这边我是全部选上
+7. 可根据需求选择网页前端翻译语言，此处选择全部勾选
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/18.png)
 8. 回到 `LuCI`
 9. 找到并进入 `Applications`
 10. 按Y选中 `luci-app-argon-config` `luci-app-ttyd` `luci-app-tailscale` `luci-app-turboacc` `luci-app-ua2f` `luci-app-unblockneteasemusic` `luci-app-upnp` `luci-app-wol`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/19.png)
-12. 按键盘方向→键移动光标到 `save` 保存(如同上面保存步骤)
-13. 双击ESC退出直到回到终端命令行
+11. 按键盘方向键→移动光标到 `Save` 保存（操作步骤同上）
+12. 双击ESC退出，直至回到终端命令行
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/17.png)
 
-### 16. 开始进行内核编译配置，等待其再次出现选择页面（请确保你的网络环境有魔法）
+### 16. 配置内核编译参数（需确保网络环境可正常访问外部资源）
+输入以下命令开始内核编译配置，等待再次出现选择页面：
 ```bash
 make kernel_menuconfig -j$(nproc) V=cs
 ```
 
-💡Tips：编译时可能会因为不同硬件性能问题，而出现的等待时间不一样，性更强的编译速度快一些，性能弱的则需要耐心等待
+**提示**：编译等待时间因硬件性能而异，性能越强的设备编译速度越快。
 
-这里会有两种情况，有些人直接就进入了 `Linux/x86 5.15.189 Kernel Configuration` 二有些人会进入 `General Setup` （如下图）
+执行命令后会出现两种情况：
+- 部分用户直接进入 `Linux/x86 5.15.189 Kernel Configuration` 界面，无需额外操作。
+- 部分用户进入 `General Setup` 界面（如下图），需按两次ESC退回到 `Linux/x86 5.15.189 Kernel Configuration` 界面。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/20.png)
-
-
-进入了 `Linux/x86 5.15.189 Kernel Configuration` 则无需理会，反之进入了 `General Setup` 请按两次ESC回到 `Linux/x86 5.15.189 Kernel Configuration`
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/21.png)
 
-1. 进行参数设置
-
-#### (1) 开启 UA2F 的防火墙内核
-
+#### （1）开启 UA2F 的防火墙内核
 1. 找到并进入 `Networking support -> Networking options`
-2. 先按Y选中 `Network packet filtering framework (Netfilter)` 再按回车进入
+2. 先按Y选中 `Network packet filtering framework (Netfilter)`，再按回车进入该选项
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/22.png)
-
 3. 找到并进入 `Core Netfilter Configuration`
 4. 按Y选中 `Netfilter NFNETLINK interface` `Netfilter LOG over NFNETLINK interface` `Netfilter connection tracking support` `Connection tracking netlink interface` `NFQUEUE and NFLOG integration with Connection Tracking`
-5. 保存并离开
+5. 保存配置并退出。
 
-### 17. 开始进行内核编译预下载（请确保你的网络环境有魔法）
+### 17. 预下载编译所需文件（需确保网络环境可正常访问外部资源）
 ```bash
 make download -j$(nproc) V=cs
 ```
 
-💡Tips：若出现报错不要着急，等全部下载完了再执行一遍命令让他重新下载那些报错的
+**提示**：若过程中出现报错无需慌张，待全部下载完成后，可再次执行该命令重新下载报错的文件。
 
-### 18. 大功告成，开始编译OpenWRT系统
-
-1. 输入以下命令开始编译OpenWRT
+### 18. 编译OpenWRT系统
+1. 输入以下命令开始编译：
 ```bash
 make -j$(nproc) V=cs
 ```
 
-💡Tips：编译时，请确保电脑或者编译服务器的可用运行内存大于4GB，弹出的功能全部选择y，以确保OpenWRT对设备的兼容性，若出现Error报错，运行一下命令在重新执行编译
+**提示**：编译时需确保设备可用运行内存大于4GB；弹出功能选择时全部选“y”，以保证OpenWRT对设备的兼容性。若出现Error报错，可先执行以下命令清理环境，再重新执行编译命令：
 ```bash
 make clean
-make dirclean  # 更彻底的清理，会删除下载的包和配置
+make dirclean  # 更彻底的清理，会删除已下载的包和配置
 ```
 
-### 19. 前往./bin/target/x86(你编译时选择的架构)/x64（你编译时选择的架构分支）/ 这里是存放编译好的所有镜像文件（.img）
-
+### 19. 查找编译结果
+编译完成后，镜像文件（.img格式）会存放在 `./bin/target/x86/64/` 目录下（路径中的“x86”“64”与编译时选择的架构一致）。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/23.png)
 
-## 五、开始安装（基于x86_64平台演示）
 
-### 1. 进入PE，确保你要安装 OpenWRT 的硬盘是完全空的，没有任何分区
+## 五、安装OpenWRT（基于x86_64平台演示）
+### 1. 进入PE系统
+将制作好的PE启动盘插入设备，进入PE系统；确保要安装OpenWRT的硬盘无任何分区（需提前备份硬盘数据）。
 
-### 2. 打开 DiskImage 软件，选择安装硬盘和安装镜像
-
+### 2. 写入镜像文件
+打开DiskImage软件，选择目标硬盘与编译好的OpenWRT镜像文件，执行写入操作。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/24.png)
 
-### 3. 直到显示完成即可重启
+### 3. 重启设备
+待写入完成后，拔掉PE启动盘，重启设备即可。
 
-## 六、设置 OpenWRT 软路由
 
-## 1. 如下图连接好设备
-
+## 六、配置OpenWRT软路由
+### 1. 连接设备
+按下图所示连接设备：校园网接口→OpenWRT主路由WAN口，OpenWRT主路由LAN口→电脑/AP设备。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/25.png)
 
-💡Tips：若不知道 OpenWRT 哪个是 WAN 口，可以先直接把电脑插到 OpenWRT的网口上，若有分配出 192.168.1.x 的ip，则是 LAN 口
+**提示**：若不确定OpenWRT的WAN口，可将电脑先连接任意网口；若电脑获取到 `192.168.1.x` 网段的IP，则该网口为LAN口。
 
-## 2. 电脑打开浏览器，输入 192.168.1.1 进入 OpenWRT 管理面板（默认无密码）
- 
+### 2. 进入管理面板
+在电脑浏览器中输入 `192.168.1.1`，进入OpenWRT管理面板（默认无密码）。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/26.png)
 
-## 3. 首先先设置密码
+### 3. 设置管理密码
+进入面板后，优先在“系统”模块中设置管理员密码，保障设备安全。
 
-## 4.填写 反侦测 的自启动脚本
-
-在左侧选项中找到 `系统 -> 启动项` 选择 `本地启动脚本`如图填写，记得点击右下角保存
-
+### 4. 配置反侦测自启动脚本
+1. 在左侧菜单中找到 `系统 -> 启动项`，选择 `本地启动脚本`。
+2. 粘贴以下脚本内容，点击右下角“保存”按钮。
 ```bash
-#开机自启UA2F
+# 开机自启UA2F
 service ua2f start
 service ua2f enable
 
-#防火墙：
+# 防火墙配置
 iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 53
 iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-ports 53
 
-# 防 IPID 检测
+# 防IPID检测
 iptables -t mangle -N IPID_MOD
 iptables -t mangle -A FORWARD -j IPID_MOD
 iptables -t mangle -A OUTPUT -j IPID_MOD
 iptables -t mangle -A IPID_MOD -d 0.0.0.0/8 -j RETURN
 iptables -t mangle -A IPID_MOD -d 127.0.0.0/8 -j RETURN
-# 由于本校局域网是 A 类网，所以我将这一条注释掉了，具体要不要注释结合你所在的校园网内网类型
+# 本校局域网为A类网，故注释此条；需根据所在校园网内网类型决定是否注释
 # iptables -t mangle -A IPID_MOD -d 10.0.0.0/8 -j RETURN
 iptables -t mangle -A IPID_MOD -d 172.16.0.0/12 -j RETURN
 iptables -t mangle -A IPID_MOD -d 192.168.0.0/16 -j RETURN
@@ -350,33 +347,33 @@ iptables -t nat -A ntp_force_local -d 127.0.0.0/8 -j RETURN
 iptables -t nat -A ntp_force_local -d 192.168.0.0/16 -j RETURN
 iptables -t nat -A ntp_force_local -s 192.168.0.0/16 -j DNAT --to-destination 192.168.1.1
 
-# 通过 iptables 修改 TTL 值
+# 通过iptables修改TTL值
 iptables -t mangle -A POSTROUTING -j TTL --ttl-set 64
 
-# iptables 拒绝 AC 进行 Flash 检测
+# iptables拒绝AC进行Flash检测
 iptables -I FORWARD -p tcp --sport 80 --tcp-flags ACK ACK -m string --algobm --string " src=\"http://1.1.1." -j DROP
 ```
-
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/27.png)
 
-## 5. 修改 OpenWRT 时时间设置
-
-#### (1) 在左侧 `系统 -> 系统` 修改时区为 Asia/Shanghai ，记得点击右下角的保存并应用
-
+### 5. 配置时间同步
+#### （1）修改时区
+1. 在左侧菜单中找到 `系统 -> 系统`。
+2. 将时区修改为 `Asia/Shanghai`，点击“保存并应用”。
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/28.png)
 
-#### (2) 设置NTP服务器，给下游设备授时，顶上找到时间同步，然后如下图填写
+#### （2）设置NTP服务器
+在“时间同步”模块中，填入以下NTP服务器地址（用于给下游设备授时）：
 ```bash
-ntp.aliyun.com          #来自阿里云
-time1.cloud.tencent.com  #来自腾讯云
-time.ustc.edu.cn        #来自中科大
-cn.pool.ntp.org        #全球志愿池
+ntp.aliyun.com          # 阿里云
+time1.cloud.tencent.com  # 腾讯云
+time.ustc.edu.cn        # 中国科学技术大学
+cn.pool.ntp.org        # 全球NTP志愿池
 ```
-
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/29.png)
 
-## 6. 修改opkg软件包配置
-在左侧 `系统 -> 软件包` 中找到 配置opkg，将/etc/opkg/distfeeds.conf中的23.05-SNAPSHOT改为23.05 (如下图)
+### 6. 修改opkg软件包配置
+1. 在左侧菜单中找到 `系统 -> 软件包`，选择 `配置opkg`。
+2. 将 `/etc/opkg/distfeeds.conf` 中的“23.05-SNAPSHOT”修改为“23.05”，修改后内容如下：
 ```bash
 src/gz openwrt_core https://downloads.openwrt.org/releases/23.05/targets/x86/64/packages
 src/gz openwrt_base https://downloads.openwrt.org/releases/23.05/packages/x86_64/base
@@ -387,11 +384,12 @@ src/gz openwrt_telephony https://downloads.openwrt.org/releases/23.05/packages/x
 ```
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/30.png)
 
-## 七、最后的工作（或许你上面已经做过了，可忽略，如下图）
-1. 将 OpenWRT 的 WAN 口用网线连接到校园网
-2. 将 路由器 的 WAN 口连接到 OpenWRT 的 LAN 口
-3. 设置 路由器 为桥接或有线中继模式
-4. 设置好 路由器 的 Wi-Fi
-5. 大功告成，快叫上你的伙伴愉快的上网吧
+
+## 七、最终设备连接与测试
+1. 将OpenWRT主路由的WAN口用网线连接到校园网接口。
+2. 将AP路由器的WAN口连接到OpenWRT主路由的LAN口。
+3. 进入AP路由器管理界面，将其设置为“桥接模式”或“有线中继模式”。
+4. 配置AP路由器的WiFi名称与密码。
+5. 所有设备连接WiFi或有线网络，测试网络是否正常使用。
 
 ![Project Logo](https://github.com/liang1481624299/gdei_openwrt/blob/main/photo/25.png)
