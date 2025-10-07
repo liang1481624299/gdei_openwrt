@@ -1,4 +1,8 @@
 ### **Language Switch: [简体中文](README.md)**
+
+> [!NOTE]
+> This project is for academic research and technical exchange purposes only. Any direct or indirect consequences arising from the use of this project (including but not limited to data loss, system failure, legal disputes, etc.) shall be borne solely by the user. This project and its authors shall not bear any joint or supplementary liability for any damages or liabilities arising therefrom.
+
 # Campus Network Solution for Dormitories at Guangdong University of Education
 This solution addresses common issues with the campus network in dormitories at Guangdong University of Education, such as network lag, insufficient bandwidth, limited number of connectable devices, and inability to access certain websites. The core approach is to bypass campus network monitoring by custom-compiling the OpenWRT firmware and optimizing network settings, thereby enhancing the smoothness and flexibility of network usage. It should be noted that the ideas and methods of this solution are also applicable to campus networks of other universities and are for reference and technical exchange only.
 
